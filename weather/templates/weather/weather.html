@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            margin-top: 20px;
+        }
+
+        .hero.is-primary {
+            background-image: url('https://source.unsplash.com/1600x900/?nature,weather');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-top: 0;
+            color: #333;
+        }
+
+        .subtitle {
+            font-size: 2rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .content {
+            font-size: 1.2rem;
+        }
+
+        .button.is-info {
+            background-color: #3273dc;
+            border-color: transparent;
+            color: white;
+        }
+
+        .button.is-info:hover {
+            background-color: #2366b1;
+        }
+
+        .media {
+            box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
+            padding: 15px;
+            margin-top: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .footer {
+            background: #3273dc;
+            color: white;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        img {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="hero is-primary is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">What does the weather feel like today?</h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-6">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="field has-addons">
+                            <div class="control is-expanded">
+                                {{ form.name }}
+                            </div>
+                            <div class="control">
+                                <button type="submit" class="button is-info">
+                                    Add City
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-6">
+                    {% for city_weather in weather_data %}
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-left">
+                                <figure class="image is-48x48">
+                                    <img src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png"
+                                        alt="Weather icon">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <strong>{{ city_weather.city }}</strong><br>
+                                        <small>{{ city_weather.temperature }}° F</small><br>
+                                        {{ city_weather.description }}
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        &copy; 2023 Weather App
+    </footer>
+</body>
+
+</html>
